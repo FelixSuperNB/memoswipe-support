@@ -1,117 +1,421 @@
-
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MemoSwipe 忆扫相册官方支持页面，提供使用帮助、常见问题与隐私政策。">
-  <title>MemoSwipe 忆扫相册 - 官方支持</title>
+  <meta name="description" content="Support for MemoSwipe / 忆扫相册. Get help with photo access, iCloud, the app trash, memberships, purchases, and local browsing history.">
+  <meta name="theme-color" content="#f7f6f0">
+  <meta name="color-scheme" content="light">
+  <meta name="referrer" content="no-referrer">
+  <title>MemoSwipe / 忆扫相册 — Support</title>
   <style>
+    :root {
+      --paper: #f7f6f0;
+      --card: #fffefa;
+      --ink: #273b32;
+      --muted: #58665c;
+      --green: #355e48;
+      --green-hover: #284c38;
+      --soft: #e8eee3;
+      --line: #dce1d5;
+      --radius: 24px;
+    }
     * { box-sizing: border-box; }
+    html { scroll-padding-top: 24px; }
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      color: #243044;
-      background: #f5f8fc;
-      line-height: 1.8;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-text-size-adjust: 100%;
+      overflow-wrap: anywhere;
     }
-    header {
-      padding: 52px 20px 40px;
-      text-align: center;
-      background: #e5f2ff;
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; cursor: pointer; }
+    a { color: var(--green); text-underline-offset: 4px; }
+    a:hover { text-decoration-thickness: 2px; }
+    :focus-visible { outline: 3px solid var(--green); outline-offset: 5px; }
+    [hidden] { display: none !important; }
+    .shell { width: min(1080px, calc(100% - 64px)); margin-inline: auto; }
+    .skip-link {
+      position: absolute; top: 12px; left: 12px; z-index: 2;
+      padding: 10px 18px; background: var(--card);
+      border: 1px solid var(--green); border-radius: 12px;
+      transform: translateY(-180%);
     }
-    header h1 { margin: 0 0 8px; font-size: 34px; }
-    header p { margin: 0; color: #52647b; }
-    main {
-      max-width: 760px;
-      margin: 28px auto;
-      padding: 0 18px;
+    .skip-link:focus { transform: translateY(0); }
+    .header {
+      min-height: 112px; display: flex; align-items: center;
+      justify-content: space-between; gap: 24px;
+      border-bottom: 1px solid var(--line);
     }
-    section {
-      background: white;
-      padding: 24px;
-      margin-bottom: 18px;
-      border-radius: 16px;
-      box-shadow: 0 2px 12px #2030500a;
+    .brand { display: flex; align-items: center; gap: 13px; }
+    .brand-mark { display: block; width: 48px; height: 48px; flex: none; object-fit: contain; border-radius: 12px; }
+    .brand-name { display: block; font-size: 18px; font-weight: 700; line-height: 1.5; }
+    .brand-caption { display: block; color: var(--muted); font-size: 12px; letter-spacing: .07em; }
+    .languages {
+      display: flex; padding: 4px; gap: 3px; flex-shrink: 0;
+      border: 1px solid var(--line); border-radius: 100px;
     }
-    h2 { font-size: 21px; margin-top: 0; }
-    a { color: #0877d1; }
-    footer {
-      text-align: center;
-      padding: 24px;
-      color: #718096;
-      font-size: 13px;
+    .languages button {
+      border: 0; border-radius: 100px; padding: 8px 14px;
+      min-width: 66px; min-height: 44px; background: transparent;
+      color: var(--muted); font-size: 14px; font-weight: 600;
     }
-    .en { color: #637188; }
+    .languages button[aria-pressed="true"] { background: var(--green); color: white; }
+    .languages button:hover { box-shadow: inset 0 0 0 1px var(--green); }
+    .hero { position: relative; padding: 64px 0 48px; }
+    .eyebrow {
+      display: flex; align-items: center; gap: 9px; color: var(--green);
+      font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      margin: 0 0 17px;
+    }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    h1 { font-size: clamp(32px, 4.5vw, 50px); line-height: 1.25; letter-spacing: -.04em; margin: 0 0 20px; font-weight: 650; }
+    .intro { max-width: 640px; font-size: 18px; color: var(--muted); margin: 0; }
+    .hero-note { margin: 16px 0 0; color: var(--green); font-size: 14px; }
+    .layout { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 28px; align-items: start; }
+    .sidebar { display: grid; gap: 22px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
+    .contact { background: var(--soft); border-color: #d6dfcf; }
+    h2 { font-size: 21px; line-height: 1.4; letter-spacing: -.02em; margin: 0 0 12px; font-weight: 650; }
+    p { margin: 0 0 14px; }
+    p:last-child { margin-bottom: 0; }
+    .small { color: var(--muted); font-size: 14px; }
+    .section-icon { width: 30px; height: 30px; color: var(--green); margin-bottom: 16px; }
+    .email { display: flex; align-items: center; min-height: 44px; font-size: 17px; font-weight: 600; margin: 12px 0; }
+    .actions { display: grid; gap: 10px; }
+    .button {
+      display: flex; align-items: center; justify-content: center; gap: 9px;
+      min-height: 48px; padding: 10px 16px; border-radius: 12px;
+      border: 1px solid var(--green); font-size: 15px; font-weight: 600;
+      text-decoration: none; text-align: center;
+    }
+    .primary { background: var(--green); color: white; }
+    .primary:hover { background: var(--green-hover); text-decoration: none; }
+    .secondary { background: transparent; color: var(--green); }
+    .secondary:hover { background: #f5f8ef; }
+    .button svg { height: 18px; width: 18px; flex: none; }
+    .copy-status { font-size: 13px; color: var(--green); margin: 10px 0 0; }
+    .copy-status:empty { display: none; }
+    .checklist { list-style: none; padding: 0; margin: 18px 0; }
+    .checklist li { position: relative; padding-left: 25px; margin: 6px 0; font-size: 14px; }
+    .checklist li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+    .privacy-note { padding-top: 17px; border-top: 1px solid var(--line); }
+    .faq { padding: 28px 30px 10px; }
+    .faq-intro { margin-bottom: 21px; }
+    details { border-top: 1px solid var(--line); }
+    summary {
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      min-height: 68px; padding: 18px 0; font-weight: 600;
+      line-height: 1.6; list-style: none; cursor: pointer;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; flex: none; font-size: 22px; color: var(--green); font-weight: 400; width: 22px; text-align: center; }
+    details[open] summary::after { content: "−"; }
+    summary:hover { color: var(--green); }
+    .answer { padding: 0 25px 22px 0; font-size: 15px; color: var(--muted); }
+    .answer strong { color: var(--ink); font-weight: 650; }
+    .answer a { display: inline-flex; align-items: center; min-height: 44px; }
+    .answer p { margin-bottom: 12px; }
+    .answer p:last-child { margin-bottom: 0; }
+    .footer {
+      margin-top: 52px; padding: 26px 0 32px; border-top: 1px solid var(--line);
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 30px;
+      font-size: 13px; color: var(--muted);
+    }
+    .footer p { margin: 0; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+    .footer a { display: inline-flex; min-height: 44px; align-items: center; }
+    .footer-note { flex-basis: 100%; max-width: 700px; }
+    noscript p { padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
+    @media (max-width: 760px) {
+      .shell { width: calc(100% - 36px); }
+      .header { min-height: 98px; gap: 10px; }
+      .brand { gap: 9px; }
+      .brand-name { font-size: 16px; }
+      .brand-mark { width: 40px; height: 40px; border-radius: 10px; }
+      .brand-caption { font-size: 11px; }
+      .languages button { min-width: 52px; padding: 8px 10px; }
+      .hero { padding: 38px 0 30px; }
+      .intro { font-size: 16px; }
+      .layout { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+      .sidebar { gap: 22px; }
+      .card { padding: 24px; border-radius: 20px; }
+      .faq { padding-bottom: 8px; }
+      .footer { margin-top: 32px; }
+    }
+    @media (max-width: 359px) {
+      .header { flex-wrap: wrap; padding: 18px 0; }
+      .card { padding-inline: 20px; }
+    }
+    @media (forced-colors: active) {
+      .languages button[aria-pressed="true"] { outline: 2px solid ButtonText; }
+    }
+    @media print {
+      .languages, .actions, .skip-link { display: none; }
+      .shell { width: 100%; }
+      .layout { display: block; }
+      .card { margin-bottom: 18px; break-inside: avoid; }
+      details::details-content { content-visibility: visible; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>忆扫相册 MemoSwipe</h1>
-    <p>重新发现珍贵回忆，让相册整理变得简单。</p>
-    <p class="en">Rediscover your memories, one swipe at a time.</p>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+  <header class="header shell">
+    <div class="brand">
+      <img class="brand-mark" src="data:image/png;base64,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" width="48" height="48" alt="" aria-hidden="true">
+      <div><span class="brand-name" lang="zh-Hans">忆扫相册</span><span class="brand-caption" lang="en">MemoSwipe</span></div>
+    </div>
+    <nav class="languages" aria-label="Language / 语言" hidden id="language-controls">
+      <button type="button" lang="zh-Hans" data-lang="zh-Hans" aria-pressed="false">简体中文</button>
+      <button type="button" lang="en" data-lang="en" aria-pressed="true">EN</button>
+    </nav>
   </header>
 
-  <main>
-    <section>
-      <h2>关于 MemoSwipe</h2>
-      <p>忆扫相册帮助你随机回顾 iPhone 中的照片和视频，
-      并通过简单的滑动操作整理不再需要的内容。</p>
-      <p class="en">MemoSwipe helps you revisit your photos and
-      videos and organize your personal photo library with simple
-      swipe gestures.</p>
+  <main id="main" class="shell">
+    <noscript><p lang="zh-Hans">启用 JavaScript 可切换至简体中文。You can read the English support information and use the email and policy links without JavaScript.</p></noscript>
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow" data-i18n="eyebrow">A little help, along the way</p>
+      <h1 id="page-title" data-i18n="title">MemoSwipe Support</h1>
+      <p class="intro" data-i18n="intro">Browse, revisit, and organize your photos and videos with simple swipe gestures. Find answers here, or get in touch when you need a hand.</p>
+      <p class="hero-note" data-i18n="heroNote">Your memories, at your own pace.</p>
     </section>
 
-    <section>
-      <h2>使用帮助 · How It Works</h2>
-      <p>上滑：浏览下一张照片或视频。</p>
-      <p>下滑：返回上一张。</p>
-      <p>左滑：将内容放入待清理列表。</p>
-      <p>确认后再删除：请先检查待清理内容，再确认删除。</p>
-      <hr>
-      <p class="en">Swipe up to see the next item. Swipe down
-      to revisit the previous item. Swipe left to add an item
-      to your pending cleanup list. Review your selection before
-      confirming deletion.</p>
-    </section>
+    <div class="layout">
+      <aside class="sidebar" aria-label="Contact and feedback" data-i18n-aria="sidebarLabel">
+        <section class="card contact" aria-labelledby="contact-title">
+          <svg class="section-icon" viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="3" y="6" width="22" height="16" rx="4" stroke="currentColor" stroke-width="1.5"/><path d="m4 8 10 8L24 8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <h2 id="contact-title" data-i18n="contactTitle">Get in touch</h2>
+          <p class="small" data-i18n="contactIntro">Have a question or something that isn’t working? Send an email to:</p>
+          <a class="email" href="mailto:felixnb888@163.com"><span id="email-address">felixnb888@163.com</span></a>
+          <div class="actions">
+            <a class="button primary" id="email-button" href="mailto:felixnb888@163.com?subject=MemoSwipe%20Support">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m3 10 14-7-5 14-3-6-6-1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m9 11 8-8" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span data-i18n="sendEmail">Send an email</span>
+            </a>
+            <button class="button secondary" id="copy-button" type="button" hidden>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M12 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span data-i18n="copyEmail">Copy email address</span>
+            </button>
+          </div>
+          <p id="copy-status" class="copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        </section>
 
-    <section>
-      <h2>常见问题 · FAQ</h2>
-      <h3>删除的照片会立即消失吗？</h3>
-      <p>左滑仅将内容放入待清理列表。最终删除前，请在 App
-      中检查所选内容并确认操作。</p>
-      <h3>为什么需要照片访问权限？</h3>
-      <p>App 需要通过 Apple 系统照片库权限浏览和管理你选择的照片及视频。</p>
-      <h3>如何联系开发者？</h3>
-      <p>如需帮助或反馈问题，请通过下方开发者联系邮箱与我们联系。</p>
-      <p class="en">For support, questions, or feedback, please
-      contact the developer using the email address below.</p>
-    </section>
+        <section class="card" aria-labelledby="feedback-title">
+          <h2 id="feedback-title" data-i18n="feedbackTitle">A helpful bug report</h2>
+          <p class="small" data-i18n="feedbackIntro">A few details can help us understand the issue. Please include:</p>
+          <ul class="checklist">
+            <li data-i18n="reportVersion">App version</li>
+            <li data-i18n="reportDevice">Device model</li>
+            <li data-i18n="reportIOS">iOS version</li>
+            <li data-i18n="reportDescription">What happened and what you expected</li>
+            <li data-i18n="reportSteps">Steps to reproduce the issue</li>
+          </ul>
+          <p class="small privacy-note" data-i18n="reportPrivacy">Screenshots or screen recordings are optional. Crop or blur private photos and other sensitive information before sharing.</p>
+        </section>
+      </aside>
 
-    <section>
-      <h2>隐私与数据 · Privacy</h2>
-      <p>MemoSwipe 旨在在你的设备上浏览和整理照片及视频。
-      我们不会将照片或视频上传到我们自己的服务器。</p>
-      <p>照片访问权限由 Apple 系统管理。请在使用过程中根据需要
-      授予相应权限。</p>
-      <p class="en">MemoSwipe is designed to browse and organize
-      photos and videos on your device. We do not upload your
-      photos or videos to our own servers. Photo library access
-      is managed through Apple's system permissions.</p>
-      <p><a href="privacy.html">查看完整隐私政策 / Full Privacy Policy</a></p>
-    </section>
+      <section class="card faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">Frequently asked questions</h2>
+        <p class="small faq-intro" data-i18n="faqIntro">A few things to know before you swipe.</p>
 
-    <section>
-      <h2>联系我们 · Contact</h2>
-      <p>开发者联系邮箱：请替换为你实际使用的联系邮箱。</p>
-      <p class="en">Developer support: replace this text with
-      your actual support email address before publishing.</p>
-    </section>
+        <details id="photo-access" open>
+          <summary><span data-i18n="permissionQuestion">Why can’t I see all my photos?</span></summary>
+          <div class="answer">
+            <p data-i18n="permissionAnswer">MemoSwipe needs permission to access your photo library. In iOS Settings → Privacy &amp; Security → Photos → MemoSwipe, check your access settings. With limited access, only the photos and videos you allow are available; some album features may be unavailable.</p>
+            <p data-i18n="permissionHint">You can change which items are shared, or allow full access if you want to organize your entire library. Settings labels may vary by iOS version.</p>
+          </div>
+        </details>
+
+        <details id="icloud">
+          <summary><span data-i18n="icloudQuestion">Why does iCloud media take time to load?</span></summary>
+          <div class="answer">
+            <p data-i18n="icloudAnswer">If an original photo or video is stored in iCloud and isn’t available on your device, iOS may need to download it first. Loading depends on your connection, iCloud availability, and device storage.</p>
+            <p data-i18n="icloudHint">Try a stable internet connection, check available storage, and retry. Media that hasn’t been downloaded may be unavailable offline.</p>
+          </div>
+        </details>
+
+        <details id="trash">
+          <summary><span data-i18n="trashQuestion">Does swiping left delete the original?</span></summary>
+          <div class="answer">
+            <p><strong data-i18n="trashRule">Swiping left only adds an item to the app’s Trash. The original stays in your photo library until you confirm system deletion.</strong></p>
+            <p data-i18n="trashAnswer">Before system deletion, you can restore items from the app’s Trash. After system deletion, use Recently Deleted in Apple’s Photos app to recover items while they are still available there. Recovery is subject to Apple’s retention rules; permanently deleted items cannot be recovered through MemoSwipe.</p>
+            <p data-i18n="trashCloud">With iCloud Photos enabled, system deletion may also sync to your other devices. Review your selection before confirming deletion.</p>
+          </div>
+        </details>
+
+        <details id="daily-limit">
+          <summary><span data-i18n="limitQuestion">What is the daily free browsing allowance?</span></summary>
+          <div class="answer">
+            <p><strong data-i18n="limitRule">Free users can browse 60 items per day, with photos and videos counted together. Members have unlimited browsing.</strong></p>
+            <p data-i18n="limitAnswer">The allowance resets at the start of each day according to your device’s local calendar. Viewing the same item again on the same day doesn’t count twice. Clearing browsing history doesn’t reset the daily allowance.</p>
+          </div>
+        </details>
+
+        <details id="restore-purchases">
+          <summary><span data-i18n="restoreQuestion">How do I restore a purchase?</span></summary>
+          <div class="answer">
+            <p data-i18n="restoreAnswer">Open the membership purchase screen in MemoSwipe and tap Restore Purchases. Make sure the App Store uses the same Apple Account you originally purchased with, connect to the internet, and follow any Apple authentication prompts.</p>
+            <p data-i18n="restoreHint">Restoration checks eligible membership purchases with Apple. It does not restore local browsing or organizing history. If your membership still doesn’t appear, email support with the details above; never send passwords or verification codes.</p>
+            <a href="https://support.apple.com/en-us/108096" data-i18n="restoreLink">Apple’s guide to restoring purchases ↗</a>
+          </div>
+        </details>
+
+        <details id="subscriptions">
+          <summary><span data-i18n="subscriptionQuestion">How do I manage or cancel a membership?</span></summary>
+          <div class="answer">
+            <p><strong data-i18n="subscriptionRule">Monthly and yearly memberships renew automatically unless canceled. Lifetime membership is a one-time purchase.</strong></p>
+            <p data-i18n="subscriptionAnswer">To manage or cancel an existing subscription, open iPhone Settings → your name → Subscriptions → MemoSwipe, or use Manage Subscription in the app when available. Check the renewal date and cancellation status shown by Apple.</p>
+            <p><strong data-i18n="lifetimeRule">Buying lifetime membership does not automatically cancel an existing subscription.</strong> <span data-i18n="lifetimeHint">Cancel any subscription you no longer need separately through Apple. Deleting the app does not cancel a subscription either.</span></p>
+            <a href="https://support.apple.com/en-us/118428" data-i18n="subscriptionLink">Apple’s guide to canceling subscriptions ↗</a>
+          </div>
+        </details>
+
+        <details id="local-history">
+          <summary><span data-i18n="historyQuestion">Where is my browsing and organizing history saved?</span></summary>
+          <div class="answer">
+            <p data-i18n="historyAnswer">Browsing and organizing records are stored locally on your device. Recovery of these records after uninstalling the app is not guaranteed. Resetting browsing history may also remove the corresponding local records.</p>
+            <p><strong data-i18n="historyRule">Restore Purchases restores eligible membership access, not browsing history.</strong> <span data-i18n="historyHint">Local records are separate from the original photos and videos in your system photo library.</span></p>
+          </div>
+        </details>
+      </section>
+    </div>
   </main>
 
-  <footer>
-    © 2026 MemoSwipe. All rights reserved.
+  <footer class="footer shell">
+    <p>忆扫相册 / MemoSwipe</p>
+    <nav class="footer-links" aria-label="Policies" data-i18n-aria="policiesLabel">
+      <a href="https://my.feishu.cn/wiki/DArVwwzYCiVPxmktoGRcBCYinFc" data-i18n="privacyLink">Privacy Policy ↗</a>
+      <a href="https://my.feishu.cn/wiki/SXwDwqcQmiv0yXkeshvcJWlonSe" data-i18n="termsLink">Terms of Use ↗</a>
+    </nav>
+    <p class="footer-note" data-i18n="sitePrivacy">This page has no login, upload form, analytics, tracking, or cookies. It does not automatically collect your information. Email is sent only when you choose to send it in your mail app.</p>
   </footer>
+
+  <script>
+    (() => {
+      'use strict';
+      const email = 'felixnb888@163.com';
+      const chinese = {
+        skip: '跳至主要内容',
+        eyebrow: '每一步整理，都有帮助',
+        title: '忆扫相册技术支持',
+        intro: '忆扫相册 / MemoSwipe，让你通过滑动手势浏览、回顾和整理照片与视频。在这里查找常见问题，或通过邮件联系我们。',
+        heroNote: '按自己的节奏，重温每一份回忆。',
+        sidebarLabel: '联系支持与问题反馈',
+        contactTitle: '联系支持',
+        contactIntro: '遇到问题，或有想告诉我们的建议？欢迎发送邮件至：',
+        sendEmail: '发送邮件',
+        copyEmail: '复制邮箱',
+        feedbackTitle: '如何反馈问题',
+        feedbackIntro: '为了更好地了解问题，建议在邮件中提供：',
+        reportVersion: 'App 版本',
+        reportDevice: '设备型号',
+        reportIOS: 'iOS 版本',
+        reportDescription: '问题描述及预期结果',
+        reportSteps: '复现步骤',
+        reportPrivacy: '截图或录屏为可选项。发送前请裁剪或遮挡私人照片及其他敏感信息。',
+        faqTitle: '常见问题',
+        faqIntro: '开始滑动整理前，你可能想了解这些。',
+        permissionQuestion: '为什么看不到全部照片？',
+        permissionAnswer: '忆扫相册需要获得照片访问权限。请前往 iOS「设置 → 隐私与安全性 → 照片 → 忆扫相册」检查权限。选择部分访问权限时，只能浏览你已授权的照片与视频，部分相册功能可能不可用。',
+        permissionHint: '你可以调整允许访问的项目；如果希望整理整个图库，可选择允许完全访问。设置选项名称可能因 iOS 版本而略有不同。',
+        icloudQuestion: '为什么 iCloud 中的照片或视频需要加载？',
+        icloudAnswer: '如果原片保存在 iCloud、尚未下载到设备，iOS 可能需要先下载资源。加载速度受网络连接、iCloud 可用状态和设备剩余空间影响。',
+        icloudHint: '请尝试使用稳定的网络、检查剩余存储空间后重试。尚未下载的内容在离线时可能无法浏览。',
+        trashQuestion: '左滑会直接删除原片吗？',
+        trashRule: '左滑仅将项目加入 App 垃圾篓。确认系统删除前，原片仍保留在系统照片图库中。',
+        trashAnswer: '系统删除前，你可以从 App 垃圾篓恢复项目。系统删除后，如需找回，请前往系统「照片」App 的「最近删除」，并在项目仍可恢复时操作。恢复范围及保留期限以 Apple 规则为准；忆扫相册无法找回已被永久删除的内容。',
+        trashCloud: '如果启用了 iCloud 照片，系统删除也可能同步到你的其他设备。请在确认删除前仔细检查所选内容。',
+        limitQuestion: '每天可以免费浏览多少项？',
+        limitRule: '免费用户每天可浏览 60 项，照片与视频合并计算；会员可无限浏览。',
+        limitAnswer: '免费额度按设备本地日历的自然日刷新。同一项目当天重复浏览不重复计数；清空浏览记录不会重置当日额度。',
+        restoreQuestion: '如何恢复购买？',
+        restoreAnswer: '请打开忆扫相册的会员购买页面，点击「恢复购买」。确认 App Store 使用购买时的同一 Apple 账号，保持联网，并按 Apple 提示完成必要的认证。',
+        restoreHint: '恢复购买会向 Apple 核验符合条件的会员权益，不会恢复本地浏览或整理记录。如果权益仍未显示，请通过邮件提供上述问题信息；切勿发送密码或验证码。',
+        restoreLink: 'Apple 官方恢复购买说明 ↗',
+        subscriptionQuestion: '如何管理或取消会员订阅？',
+        subscriptionRule: '月度、年度会员自动续订，除非你取消订阅；永久会员为一次性购买。',
+        subscriptionAnswer: '如需管理或取消已有订阅，请前往 iPhone「设置 → 你的姓名 → 订阅 → 忆扫相册」，或在 App 提供入口时点击「管理订阅」。请核对 Apple 页面显示的续期日期与取消状态。',
+        lifetimeRule: '购买永久会员不会自动取消已有订阅。',
+        lifetimeHint: '请另行通过 Apple 取消不再需要的订阅。卸载 App 也不会取消订阅。',
+        subscriptionLink: 'Apple 官方取消订阅说明 ↗',
+        historyQuestion: '浏览和整理记录保存在哪里？',
+        historyAnswer: '浏览和整理记录保存在设备本地，不保证卸载 App 后仍可恢复这些记录。重置浏览记录也可能移除相应的本地记录。',
+        historyRule: '恢复购买仅恢复符合条件的会员权益，不等于恢复浏览记录。',
+        historyHint: '本地记录与系统照片图库中的照片、视频原片相互独立。',
+        policiesLabel: '政策与条款',
+        privacyLink: '隐私政策 ↗',
+        termsLink: '使用条款 ↗',
+        sitePrivacy: '本页面无需登录，没有上传表单、统计追踪或 Cookie，不自动收集你的信息。邮件仅在你通过邮件 App 主动发送时发出。'
+      };
+      const textNodes = [...document.querySelectorAll('[data-i18n]')];
+      const ariaNodes = [...document.querySelectorAll('[data-i18n-aria]')];
+      const english = Object.fromEntries(textNodes.map(node => [node.dataset.i18n, node.textContent]));
+      ariaNodes.forEach(node => { english[node.dataset.i18nAria] = node.getAttribute('aria-label'); });
+      const messages = {
+        en: { copied: 'Email address copied.', manual: 'Copying is unavailable. Select the address above and copy it manually.' },
+        'zh-Hans': { copied: '邮箱已复制。', manual: '暂时无法自动复制，请选中上方邮箱地址并手动复制。' }
+      };
+      const emailTemplates = {
+        en: 'App version: \nDevice model: \niOS version: \n\nIssue and expected behavior: \n\nSteps to reproduce: \n1. \n2. \n\nScreenshots or recordings are optional. Please remove private photos and sensitive information before sending.\n',
+        'zh-Hans': 'App 版本：\n设备型号：\niOS 版本：\n\n问题描述及预期结果：\n\n复现步骤：\n1. \n2. \n\n截图或录屏为可选项，发送前请移除私人照片及敏感信息。\n'
+      };
+      let currentLanguage = 'en';
+      let copyStatus = '';
+      function updateCopyStatus() {
+        document.getElementById('copy-status').textContent = copyStatus ? messages[currentLanguage][copyStatus] : '';
+      }
+      function setLanguage(language) {
+        currentLanguage = language === 'zh-Hans' ? 'zh-Hans' : 'en';
+        const words = currentLanguage === 'zh-Hans' ? chinese : english;
+        document.documentElement.lang = currentLanguage;
+        textNodes.forEach(node => { node.textContent = words[node.dataset.i18n]; });
+        ariaNodes.forEach(node => { node.setAttribute('aria-label', words[node.dataset.i18nAria]); });
+        document.querySelectorAll('[data-lang]').forEach(button => {
+          button.setAttribute('aria-pressed', String(button.dataset.lang === currentLanguage));
+        });
+        document.title = currentLanguage === 'zh-Hans' ? '忆扫相册 / MemoSwipe — 技术支持' : 'MemoSwipe / 忆扫相册 — Support';
+        document.querySelector('meta[name="description"]').content = currentLanguage === 'zh-Hans'
+          ? '忆扫相册 / MemoSwipe 技术支持：照片访问、iCloud、垃圾篓、会员订阅、恢复购买及本地浏览记录。'
+          : 'Support for MemoSwipe / 忆扫相册. Get help with photo access, iCloud, the app trash, memberships, purchases, and local browsing history.';
+        const subject = currentLanguage === 'zh-Hans' ? '忆扫相册 MemoSwipe 技术支持' : 'MemoSwipe Support';
+        document.getElementById('email-button').href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(emailTemplates[currentLanguage]);
+        updateCopyStatus();
+      }
+      document.querySelectorAll('[data-lang]').forEach(button => {
+        button.addEventListener('click', () => setLanguage(button.dataset.lang));
+      });
+      document.getElementById('copy-button').addEventListener('click', async () => {
+        let copied = false;
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(email);
+            copied = true;
+          }
+        } catch (_) { /* Try selection-based copying when clipboard access is denied. */ }
+        if (!copied) {
+          const selection = window.getSelection();
+          if (selection) {
+            const range = document.createRange();
+            range.selectNodeContents(document.getElementById('email-address'));
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try { copied = document.execCommand('copy'); } catch (_) { /* Keep the address selected for manual copying. */ }
+            if (copied) selection.removeAllRanges();
+          }
+        }
+        copyStatus = copied ? 'copied' : 'manual';
+        updateCopyStatus();
+      });
+      const browserLanguage = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+      setLanguage(/^zh(?:-|$)/i.test(browserLanguage) ? 'zh-Hans' : 'en');
+      document.getElementById('language-controls').hidden = false;
+      document.getElementById('copy-button').hidden = false;
+    })();
+  </script>
 </body>
 </html>
